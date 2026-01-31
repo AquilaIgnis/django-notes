@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { use, useState } from 'react';
 import api from '../api';
 import { useNavigate } from 'react-router-dom';
 import { ACCESS_TOKEN, REFRESH_TOKEN } from '../constants';
@@ -12,6 +12,7 @@ type FormProps = {
 // form for register or login
 function Form({ route, method }: FormProps) {
     const [username, setUsername] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
@@ -21,7 +22,17 @@ function Form({ route, method }: FormProps) {
         e.preventDefault();
 
         try {
-            const response = await api.post(route, { username, password });
+            const response = await api.post(route, { username, password, email });
+
+            console.log(
+                'response: ',
+                ' username:',
+                username,
+                ' password',
+                password,
+                'email: ',
+                email,
+            );
 
             if (method === 'login') {
                 localStorage.setItem(ACCESS_TOKEN, response.data.access);
@@ -56,6 +67,16 @@ function Form({ route, method }: FormProps) {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="Password"
             />
+
+            {method === 'register' ? (
+                <input
+                    className="form-input"
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="Email"
+                />
+            ) : null}
 
             <button className="form-button" type="submit">
                 {method === 'login' ? 'Login' : 'Register'}

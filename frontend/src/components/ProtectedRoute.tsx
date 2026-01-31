@@ -2,10 +2,15 @@ import { Navigate } from 'react-router-dom';
 import { jwtDecode } from 'jwt-decode';
 import api from '../api';
 import { REFRESH_TOKEN, ACCESS_TOKEN } from '../constants';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
+
+//interfaces
+interface ProtectedRouteProps {
+    children: ReactNode;
+}
 
 //prop
-function ProtectedRoute({ children }) {
+function ProtectedRoute({ children }: ProtectedRouteProps) {
     const [isAuthoized, setIsAuthorized] = useState<boolean | null>(null);
 
     // on load
