@@ -7,7 +7,7 @@ class User(AbstractUser):
 
 class Note(models.Model):
     title = models.CharField(max_length=100)
-    content_type = models.TextField()
+    content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name='notes')
 
