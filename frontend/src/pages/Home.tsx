@@ -1,9 +1,13 @@
 import { useEffect, useState } from 'react';
 import api from '../api';
 import type { AxiosResponse } from 'axios';
+import Note from '../components/Note';
+import type { noteObject } from '../types';
+
+import '../styles/home.css';
 
 function Home() {
-    const [notes, setNotes] = useState([]);
+    const [notes, setNotes] = useState<noteObject[]>([]);
     const [content, setContent] = useState('');
     const [title, setTitle] = useState('');
 
@@ -66,6 +70,9 @@ function Home() {
         <div>
             <div>
                 <h1> Notes</h1>
+                {notes.map((note) => (
+                    <Note note={note} onDelete={deleteNote} key={note.id} />
+                ))}
             </div>
             <h2> Create a Note</h2>
             <form onSubmit={createNote}>
@@ -90,7 +97,7 @@ function Home() {
                     onChange={(e) => setContent(e.target.value)}
                     value={content}
                 />
-                <button type="submit" value="submit">
+                <button className="create-button" type="submit" value="submit">
                     Create
                 </button>
             </form>
